@@ -4,6 +4,7 @@ description: Denoを使ってAstroサイトをウェブにデプロイする方�
 type: deploy
 i18nReady: true
 ---
+import ReadMore from '~/components/ReadMore.astro'
 
 Astroのサーバーサイドレンダリングされたサイトを、世界中のエッジでJavaScript、TypeScript、およびWebAssemblyを実行する分散システムである[Deno Deploy](https://deno.com/deploy)にデプロイできます。
 
@@ -15,7 +16,9 @@ Astroのサーバーサイドレンダリングされたサイトを、世界中
 
 ## プロジェクトの設定
 
-Astroプロジェクトは、サーバーサイドレンダリングサイト（SSR）として[Deno Deploy](https://deno.com/deploy)にデプロイできます。Deno Deployは静的サイトをサポートしていません。
+このページは、Astroプロジェクトを[Deno Deploy](https://deno.com/deploy)にサーバーサイドレンダリングサイト（SSR）としてデプロイする手順を提供します。
+
+静的サイトをデプロイする場合は、[Deno Deployの静的サイトチュートリアル](https://docs.deno.com/deploy/tutorials/static-site)を参照してください。
 
 ### SSR用アダプター
 
@@ -29,10 +32,10 @@ npx astro add deno
 
 アダプターを手動でインストールする場合は、以下の2つのステップを実行してください。
 
-1. お好みのパッケージマネージャを使用して、[`@astrojs/deno`アダプター][Deno adapter]をプロジェクトの依存関係にインストールします。npmを使用している、またはよくわからない場合は、ターミナルで以下のコマンドを実行してください。
+1. お好みのパッケージマネージャを使用して、[`@deno/astro-adapter`アダプター][Deno adapter]をプロジェクトの依存関係にインストールします。npmを使用している、またはよくわからない場合は、ターミナルで以下のコマンドを実行してください。
 
     ```bash
-      npm install @astrojs/deno
+      npm install @deno/astro-adapter
     ```
 
 1. プロジェクトの設定ファイル`astro.config.mjs`を以下のように変更します。
@@ -40,7 +43,7 @@ npx astro add deno
     ```js ins={3,6-7}
     // astro.config.mjs
     import { defineConfig } from 'astro/config';
-    import deno from '@astrojs/deno';
+    import deno from '@deno/astro-adapter';
 
     export default defineConfig({
       output: 'server',
@@ -70,7 +73,7 @@ npx astro add deno
     npm run preview
     ```
 
-## デプロイ方法
+## SSRされるAstroサイトのデプロイ方法
 
 GitHub Actions、またはDeno DeployのCLI（コマンドラインインターフェイス）を使用して、Deno Deployにデプロイできます。
 
@@ -100,7 +103,7 @@ GitHub Actions、またはDeno DeployのCLI（コマンドラインインター�
 
         steps:
           - name: Clone repository
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
 
           # npmを使用していない場合は、`npm ci`を`yarn install`または`pnpm i`に変更してください。
           - name: Install dependencies
@@ -170,6 +173,6 @@ GitHub Actions、またはDeno DeployのCLI（コマンドラインインター�
     ```
 
 
-📚 [AstroにおけるSSR](/ja/guides/server-side-rendering/)についてもっと読む。
+<ReadMore>[AstroにおけるSSR](/ja/guides/server-side-rendering/)についてもっと読む。</ReadMore>
 
 [Denoアダプター]: https://github.com/denoland/deno-astro-adapter

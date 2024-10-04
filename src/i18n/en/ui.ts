@@ -50,6 +50,8 @@ export default {
 	'deploy.staticTag': 'Static',
 	// CMS Guides vocabulary
 	'cms.navTitle': 'More CMS guides',
+	// Media Guides voccabulary
+	'media.navTitle': 'More DAM guides',
 	// Migration Guides vocabulary
 	'migration.navTitle': 'More migration guides',
 	// Recipes vocabulary
@@ -112,8 +114,6 @@ export default {
 	'feedback.submit': 'Submit feedback',
 	'feedback.close': 'Close feedback form',
 	'feedback.success': 'Thanks! We received your feedback.',
-	// `<FileTree>` component
-	'fileTree.directoryLabel': 'Directory',
 	// Code snippet vocabulary
 	'expressiveCode.terminalWindowFallbackTitle': 'Terminal window',
 	'expressiveCode.copyButtonTooltip': 'Copy to clipboard',
@@ -130,4 +130,6 @@ export default {
 	// Starlight banner
 	'starlight.title': 'Want to build your own Docs?',
 	'starlight.description': 'Grab this template to get started.',
+	// `<StudioHeading>` component
+	'studioHeading.label': 'Studio feature',
 };

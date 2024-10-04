@@ -4,13 +4,18 @@ description: Build a remark plugin to add the last modified time to your Markdow
 i18nReady: true
 type: recipe
 ---
-
-import PackageManagerTabs from '~/components/tabs/PackageManagerTabs.astro'
+import { Steps } from '@astrojs/starlight/components';
+import PackageManagerTabs from '~/components/tabs/PackageManagerTabs.astro';
 
 Learn how to build a [remark plugin](https://github.com/remarkjs/remark) that adds the last modified time to the frontmatter of your Markdown and MDX files. Use this property to  display the modified time in your pages.
 
+:::note[Uses Git history]
+This recipe calculates time based on your repository’s Git history and may not be accurate on some deployment platforms. Your host may be performing **shallow clones** which do not retrieve the full git history.
+:::
+
 ## Recipe
 
+<Steps>
 1. Install Helper Packages
 
    Install [`Day.js`](https://www.npmjs.com/package/dayjs) to modify and format times:
@@ -35,7 +40,7 @@ Learn how to build a [remark plugin](https://github.com/remarkjs/remark) that ad
 
 2. Create a Remark Plugin
 
-   This plugin uses `execSync` to run a Git command that returns the timestamp of the latest commit in ISO 8601 format. The timestamp is then added to the frontmatter of the file.
+    This plugin uses `execSync` to run a Git command that returns the timestamp of the latest commit in ISO 8601 format. The timestamp is then added to the frontmatter of the file.
 
      ```js title="remark-modified-time.mjs"
      import { execSync } from "child_process";
@@ -120,7 +125,7 @@ Learn how to build a [remark plugin](https://github.com/remarkjs/remark) that ad
    </html>
    ```
 
-   If you're using a [Markdown layout](/en/guides/markdown-content/#markdown-and-mdx-pages), use the `lastModified` frontmatter property from `Astro.props` in your layout template.
+   If you're using a [Markdown layout](/en/basics/layouts/#markdown-layouts), use the `lastModified` frontmatter property from `Astro.props` in your layout template.
 
    ```astro title="src/layouts/BlogLayout.astro" {2-3,5,7-9,15}
    ---
@@ -142,3 +147,4 @@ Learn how to build a [remark plugin](https://github.com/remarkjs/remark) that ad
      </body>
    </html>
    ```
+</Steps>

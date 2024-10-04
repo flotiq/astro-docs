@@ -52,6 +52,8 @@ export default UIDictionary({
 	'deploy.staticTag': 'Statique',
 	// CMS Guides vocabulary
 	'cms.navTitle': 'Plus de guides sur les CMS',
+	// Media Guides vocabulary
+	'media.navTitle': 'Plus de guides sur les DAM',
 	// Migration Guides vocabulary
 	'migration.navTitle': 'Plus de guides sur les migrations',
 	// Recipes vocabulary
@@ -104,6 +106,8 @@ export default UIDictionary({
 	'feedback.categoryGroupLabel': 'Choisissez le type de commentaire',
 	'feedback.issue': 'Problème',
 	'feedback.createIssue': 'Créer une issue GitHub',
+	'feedback.createIssue.description':
+		"Le moyen le plus rapide d'alerter notre équipe d'un problème.",
 	'feedback.sendFeedback': 'Envoyez-nous un commentaire',
 	'feedback.sendFeedback.description': 'Envoyez-nous directement un message.',
 	'feedback.idea': 'Idée',
@@ -113,8 +117,6 @@ export default UIDictionary({
 	'feedback.submit': 'Envoyez des commentaires',
 	'feedback.close': 'Fermer le formulaire de commentaires',
 	'feedback.success': 'Merci ! Nous avons reçu vos commentaires.',
-	// `<FileTree>` component
-	'fileTree.directoryLabel': 'Répertoire',
 	// Code snippet vocabulary
 	'expressiveCode.terminalWindowFallbackTitle': 'Fenêtre du terminal',
 	'expressiveCode.copyButtonTooltip': 'Copier dans le presse-papiers',
@@ -131,4 +133,6 @@ export default UIDictionary({
 	// Starlight banner
 	'starlight.title': 'Vous voulez créer votre propre Doc ?',
 	'starlight.description': 'Prenez ce modèle pour commencer.',
+	// `<StudioHeading>` component
+	'studioHeading.label': 'Fonctionnalité Studio',
 });

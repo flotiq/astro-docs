@@ -6,7 +6,7 @@ import { getPageCategory } from './getPageCategory';
 export function removeSubPageSegment(path: string) {
 	// Include new pages with sub-pages as part of this regex.
 	const regex =
-		/(?:install|deploy|integrations-guide|tutorial|migrate-to-astro|recipes|cms|backend)\//;
+		/(?:install|deploy|integrations-guide|tutorial|migrate-to-astro|recipes|cms|media|backend)\//;
 	const matches = regex.exec(path);
 
 	if (matches) {
@@ -19,12 +19,23 @@ export function removeSubPageSegment(path: string) {
 }
 
 const typeIndexes: Partial<Record<CollectionEntry<'docs'>['data']['type'], string>> = {
-	recipe: 'recipes',
+	recipe: 'community-resources/content',
 };
 
 const categoryIndex: Partial<Record<ReturnType<typeof getPageCategory>, string>> = {
 	'Error Reference': 'reference/error-reference',
+	Tutorials: 'tutorial/0-introduction',
 };
+
+/** Map of page slugs to the slug of their parent page. */
+const parentIndex: Record<string, string> = {
+	'editor-setup': 'install-and-setup',
+	'guides/dev-toolbar': 'install-and-setup',
+	'guides/server-side-rendering': 'guides/integrations-guide',
+};
+
+/** Slugs of pages that appear at the top level even though they are in a sub-category. */
+const topLevelExceptions = ['recipes/studio'];
 
 /**
  * Test if `currentPage` is considered a sub-page of `parentSlug`.
@@ -32,16 +43,33 @@ const categoryIndex: Partial<Record<ReturnType<typeof getPageCategory>, string>>
  * @param parentSlug The language-less slug for the parent to test against e.g. `'guides/content-collections'`
  */
 export function isSubPage(currentPage: string, parentSlug: string): boolean {
-	// Test 1: do the two pages share a base URL segment?
+	// Test: is this page a known, top-level page? Don’t match its parent.
+	for (const slug of topLevelExceptions) {
+		const currentIsExceptionPage = currentPage.endsWith('/' + slug);
+		const parentIsExceptionPage = parentSlug === slug;
+		if (
+			(parentIsExceptionPage && !currentIsExceptionPage) ||
+			(currentIsExceptionPage && !parentIsExceptionPage)
+		) {
+			return false;
+		}
+	}
+
+	// Test: is there a known parent page hardcoded for this page?
+	const currentSlug = currentPage.split('/').slice(1).join('/');
+	if (parentIndex[currentSlug] === parentSlug) {
+		return true;
+	}
+	// Test: do the two pages share a base URL segment?
 	if (removeSubPageSegment(currentPage).endsWith(removeSubPageSegment(parentSlug))) {
 		return true;
 	}
-	// Test 2: is there a known parent page for this page category?
+	// Test: is there a known parent page for this page category?
 	const category = getPageCategory({ pathname: '/' + currentPage + '/' });
 	if (categoryIndex[category] === parentSlug) {
 		return true;
 	}
-	// Test 3: is there a known parent page for this page type?
+	// Test: is there a known parent page for this page type?
 	const type = englishPages.find(({ slug }) => slug === currentPage)?.data.type;
 	if (type && typeIndexes[type] === parentSlug) {
 		return true;

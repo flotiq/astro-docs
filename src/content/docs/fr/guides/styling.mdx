@@ -26,7 +26,7 @@ Le style d'un composant Astro est aussi simple que l'ajout d'une balise `<style>
 Les règles CSS Astro `<style>` sont automatiquement **scopées par défaut**. Les styles scopés sont compilés en coulisses pour ne s'appliquer qu'au HTML écrit à l'intérieur de ce même composant. Le CSS que vous écrivez à l'intérieur d'un composant Astro est automatiquement encapsulé à l'intérieur de ce composant.
 
 Ce CSS:
-```astro title="index.astro"
+```astro title="src/pages/index.astro"
 <style>
   h1 { 
     color: red; 
@@ -138,7 +138,7 @@ Dans Astro, les attributs HTML comme `class` ne sont pas automatiquement transmi
 
 Au lieu de cela, il faut accepter un attribut `class` dans le composant enfant et l'appliquer à l'élément racine. Lors de la déstructuration, vous devez le renommer, car `class` est un [mot réservé](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Lexical_grammar#mots-clés) en JavaScript.
 
-En utilisant la stratégie de style par défaut, vous devez également passer l'attribut `data-astro-cid-*`. Vous pouvez le faire en passant le `...rest` des propriétés au composant. Si vous avez changé `scopedStyleStrategy` en `'class'` ou `'where'`, la propriété `...rest` n'est pas nécessaire.
+En utilisant la stratégie de style par défaut, vous devez également passer l'attribut `data-astro-cid-*`. Vous pouvez le faire en passant le reste des props au composant. Si vous avez changé `scopedStyleStrategy` en `'class'` ou `'where'`, la propriété `...rest` n'est pas nécessaire.
 
 ```astro title="src/components/MyComponent.astro" {2,4}
 ---
@@ -214,7 +214,7 @@ import 'package-name/styles.css';
 
 Si votre paquet **ne suggère pas l'utilisation d'une extension de fichier** (c'est-à-dire `nom-du-paquet/styles`), vous devrez d'abord mettre à jour votre configuration Astro ! 
 
-Disons que vous importez un fichier CSS depuis `nom-du-paquet` appelé `normalize` (avec l'extension de fichier omise). Pour s'assurer que nous pouvons rendre votre page correctement, ajoutez `nom-du-paquet` au [tableau `vite.ssr.noExternal`](https://vitejs.dev/config/ssr-options.html#ssr-noexternal) :
+Disons que vous importez un fichier CSS depuis `nom-du-paquet` appelé `normalize` (avec l'extension de fichier omise). Pour s'assurer que nous pouvons rendre votre page correctement, ajoutez `nom-du-paquet` au [tableau `vite.ssr.noExternal`](https://vite.dev/config/ssr-options.html#ssr-noexternal) :
 
 ```js ins={7}
 // astro.config.mjs
@@ -230,7 +230,7 @@ export default defineConfig({
 ```
 
 :::note
-Il s'agit d'un [paramètre spécifique à Vite](https://vitejs.dev/config/ssr-options.html#ssr-noexternal) qui n'a _pas_ de rapport avec (ou ne nécessite pas) [Astro SSR](/fr/guides/server-side-rendering/).
+Il s'agit d'un [paramètre spécifique à Vite](https://vite.dev/config/ssr-options.html#ssr-noexternal) qui n'a _pas_ de rapport avec (ou ne nécessite pas) [Astro SSR](/fr/guides/server-side-rendering/).
 :::
 
 Maintenant, vous êtes libre d'importer `nom-du-paquet/normalize`. Celle-ci sera regroupée et optimisée par Astro comme n'importe quelle autre feuille de style locale.
@@ -267,7 +267,7 @@ Lorsque des règles CSS contradictoires s'appliquent au même élément, les nav
 
 Si une règle est plus _spécifique_ qu'une autre, sa valeur sera prioritaire, quel que soit l'endroit où la règle CSS apparaît :
 
-```astro title="MyComponent.astro"
+```astro title="src/components/MyComponent.astro"
 <style>
   h1 { color: red }
   div > h1 {
@@ -282,7 +282,7 @@ Si une règle est plus _spécifique_ qu'une autre, sa valeur sera prioritaire, q
 ```
 
 Si deux règles ont la même spécificité, l'ordre d'apparition est évalué et la valeur de la dernière règle est prioritaire :
-```astro title="MyComponent.astro"
+```astro title="src/components/MyComponent.astro"
 <style>
   h1 { color: purple }
   h1 { color: red }
@@ -304,12 +304,12 @@ Les règles CSS Astro sont évaluées dans cet ordre d'apparition :
 
 L'utilisation de [scoped styles](#styles-scopés) n'augmente pas la _spécificité_ de votre CSS, mais ils viendront toujours en dernier dans l'_ordre d'apparition_. Ils auront donc la priorité sur les autres styles de même spécificité. Par exemple, si vous importez une feuille de style qui entre en conflit avec un style scopé, c'est la valeur du style scopé qui s'appliquera :
 
-```css title="make-it-purple.css"
+```css title="src/components/make-it-purple.css"
 h1 {
   color: purple;
 }
 ```
-```astro title="MyComponent.astro"
+```astro title="src/components/MyComponent.astro"
 ---
 import "./make-it-purple.css"
 ---
@@ -325,12 +325,12 @@ import "./make-it-purple.css"
 
 Si vous rendez le style importé _plus spécifique_, il aura une plus grande priorité que le style délimité :
 
-```css title="make-it-purple.css"
+```css title="src/components/make-it-purple.css"
 div > h1 {
   color: purple;
 }
 ```
-```astro title="MyComponent.astro"
+```astro title="src/components/MyComponent.astro"
 ---
 import "./make-it-purple.css"
 ---
@@ -348,17 +348,17 @@ import "./make-it-purple.css"
 
 Lors de l'importation de plusieurs feuilles de style dans un composant Astro, les règles CSS sont évaluées dans l'ordre dans lequel elles sont importées. Une spécificité plus élevée déterminera toujours les styles à afficher, quel que soit le moment où la feuille de style CSS est évaluée. Mais lorsque des styles conflictuels ont la même spécificité, c'est le _dernier importé_ qui l'emporte :
 
-```css title="make-it-purple.css"
+```css title="src/components/make-it-purple.css"
 div > h1 {
   color: purple;
 }
 ```
-```css title="make-it-green.css"
+```css title="src/components/make-it-green.css"
 div > h1 {
   color: green;
 }
 ```
-```astro title="MyComponent.astro"
+```astro title="src/components/MyComponent.astro"
 ---
 import "./make-it-green.css"
 import "./make-it-purple.css"
@@ -375,7 +375,7 @@ import "./make-it-purple.css"
 
 Alors que les balises `<style>` sont cadrées et ne s'appliquent qu'au composant qui les déclare, le CSS _importé_ peut "fuir". L'importation d'un composant applique toutes les feuilles de style CSS qu'il importe, même si le composant n'est jamais utilisé :
 
-```astro title="PurpleComponent.astro"
+```astro title="src/components/MyComponent.astro"
 ---
 import "./make-it-purple.css"
 ---
@@ -383,7 +383,7 @@ import "./make-it-purple.css"
   <h1>I import purple CSS.</h1>
 </div>
 ```
-```astro title="MyComponent.astro"
+```astro title="src/components/MyComponent.astro"
 ---
 import "./make-it-green.css"
 import PurpleComponent from "./PurpleComponent.astro";
@@ -403,9 +403,9 @@ Un modèle courant dans Astro consiste à importer des feuilles de style CSS glo
 :::
 
 ### Link Tags
-Les feuilles de style chargées via [link tags](#charger-une-feuille-de-style-statique-via-les-balises-link) sont évaluées dans l'ordre, avant tout autre style dans un fichier Astro. Par conséquent, ces styles ont une priorité inférieure à celle des feuilles de style importées et des styles délimités :
+Les feuilles de style chargées via [les balises de lien](#charger-une-feuille-de-style-statique-via-les-balises-link) sont évaluées dans l'ordre, avant tout autre style dans un fichier Astro. Par conséquent, ces styles ont une priorité inférieure à celle des feuilles de style importées et des styles délimités :
 
-```astro title="index.astro"
+```astro title="src/pages/index.astro"
 ---
 import "../components/make-it-purple.css"
 ---
@@ -484,17 +484,38 @@ npm install less
 
 Utilisez `<style lang="less">` dans les fichiers `.astro`.
 
+### LightningCSS
+
+```shell
+npm install lightningcss
+```
+
+Mettez à jour votre configuration `vite` dans `astro.config.mjs` :
+
+```js title="astro.config.mjs" ins={4-8}
+import { defineConfig } from 'astro/config'
+
+export default defineConfig({
+  vite: {
+    css: {
+      transformer: "lightningcss",
+    },
+  },
+})
+
+```
+
 ### Dans les composants du framework
 
 Vous pouvez également utiliser tous les préprocesseurs CSS ci-dessus dans les frameworks JS ! Veillez à suivre les modèles recommandés par chaque framework :
 
-- **React** / **Preact**: `importer les styles depuis './styles.module.scss'`;
+- **React** / **Preact**: `importer les styles depuis './styles.module.scss';`
 - **Vue**: `<style lang="scss">`
 - **Svelte**: `<style lang="scss">`
 
 ## PostCSS
 
-Astro est livré avec PostCSS inclus dans [Vite](https://vitejs.dev/guide/features.html#postcss). Pour configurer PostCSS pour votre projet, créez un fichier `postcss.config.cjs` à la racine du projet. Vous pouvez importer des plugins en utilisant `require()` après les avoir installés (par exemple `npm install autoprefixer`).
+Astro est livré avec PostCSS inclus dans [Vite](https://vite.dev/guide/features.html#postcss). Pour configurer PostCSS pour votre projet, créez un fichier `postcss.config.cjs` à la racine du projet. Vous pouvez importer des plugins en utilisant `require()` après les avoir installés (par exemple `npm install autoprefixer`).
 
 ```js title="postcss.config.cjs" ins={3-4}
 module.exports = {
@@ -530,7 +551,7 @@ Svelte dans Astro fonctionne aussi exactement comme prévu : [Svelte Styling Doc
 
 ## Style Markdown
 
-Toutes les méthodes de style Astro sont disponibles pour un [composant de mise en page Markdown](/fr/basics/layouts/#mises-en-page-markdownmdx), mais des méthodes différentes auront des effets de style différents sur votre page.
+Toutes les méthodes de style Astro sont disponibles pour un [composant de mise en page Markdown](/fr/basics/layouts/#mises-en-page-markdown), mais des méthodes différentes auront des effets de style différents sur votre page.
 
 Vous pouvez appliquer des styles globaux à votre contenu Markdown en ajoutant des [feuilles de style importées](#styles-externes) à la mise en page qui englobe le contenu de votre page. Il est également possible d'appliquer un style à votre document Markdown avec des balises [`<style is:global>`](#styles-globaux) dans le composant de mise en page.  Notez que tous les styles ajoutés sont soumis à [l'ordre de cascade d'Astro](#ordre-en-cascade), et vous devriez vérifier votre page rendue avec soin pour vous assurer que vos styles sont appliqués comme prévu.
 
@@ -540,7 +561,7 @@ Vous pouvez également ajouter des [intégrations CSS](#intégrations-css), nota
 
 ### Contrôle des paquets
 
-Lorsqu'Astro construit votre site pour un déploiement en production, il minifie et combine votre CSS en morceaux. Chaque page de votre site reçoit son propre bloc et, en outre, les feuilles de style CSS partagées entre plusieurs pages sont divisées en blocs distincts afin d'être réutilisées.
+Lorsque Astro construit votre site pour un déploiement en production, il minifie et combine votre CSS en morceaux. Chaque page de votre site reçoit son propre bloc et, en outre, les feuilles de style CSS partagées entre plusieurs pages sont divisées en blocs distincts afin d'être réutilisées.
 
 Cependant, lorsque plusieurs pages partagent des styles, certains morceaux partagés peuvent devenir très petits. S'ils étaient tous envoyés séparément, cela entraînerait de nombreuses requêtes de feuilles de style et affecterait les performances du site. C'est pourquoi, par défaut, Astro ne liera que les éléments de votre HTML dont la taille est supérieure à 4kB en tant que balises `<link rel="stylesheet">`, tout en intégrant les éléments plus petits dans `<style type="text/css">`. Cette approche permet de trouver un équilibre entre le nombre de requêtes supplémentaires et le volume de CSS qui peut être mis en cache entre les pages.
 
@@ -592,7 +613,7 @@ import rawStylesCSS from '../styles/main.css?raw';
 <style is:inline set:html={rawStylesCSS}></style>
 ```
 
-Voir la [documentation de Vite](https://vitejs.dev/guide/assets.html#importing-asset-as-string) pour plus d'informations.
+Voir la [documentation de Vite](https://vite.dev/guide/assets.html#importing-asset-as-string) pour plus d'informations.
 ### Importations CSS `?url`
 
 Pour les cas d'utilisation avancés, vous pouvez importer une référence URL directe pour un fichier CSS dans le répertoire `src/` de votre projet. Cela peut être utile lorsque vous avez besoin d'un contrôle total sur la façon dont un fichier CSS est chargé sur la page. Cependant, cela empêchera l'optimisation de ce fichier CSS avec le reste de votre page CSS.
@@ -600,7 +621,7 @@ Pour les cas d'utilisation avancés, vous pouvez importer une référence URL di
 Cela n'est pas recommandé pour la plupart des utilisateurs. Placez plutôt vos fichiers CSS à l'intérieur de `public/` pour obtenir une référence URL cohérente.
 
 :::caution
-Importer un fichier CSS plus petit avec `?url` peut retourner le contenu encodé en base64 du fichier CSS en tant qu'URL de données dans votre compilation finale. Soit vous écrivez votre code pour supporter les URLs de données encodées (`data:text/css;base64,...`), soit vous mettez l'option de configuration [`vite.build.assetsInlineLimit`](https://vitejs.dev/config/#build-assetsinlinelimit) à `0` pour désactiver cette fonctionnalité.
+Importer un fichier CSS plus petit avec `?url` peut retourner le contenu encodé en base64 du fichier CSS en tant qu'URL de données dans votre compilation finale. Soit vous écrivez votre code pour supporter les URLs de données encodées (`data:text/css;base64,...`), soit vous mettez l'option de configuration [`vite.build.assetsInlineLimit`](https://vite.dev/config/#build-assetsinlinelimit) à `0` pour désactiver cette fonctionnalité.
 :::
 
 ```astro title="src/components/RawStylesUrl.astro" "?url"
@@ -612,7 +633,7 @@ import stylesUrl from '../styles/main.css?url';
 <link rel="stylesheet" href={stylesUrl}>
 ```
 
-Voir la [documentation de Vite](https://vitejs.dev/guide/assets.html#importing-asset-as-url pour plus d'informations.
+Voir la [documentation de Vite](https://vite.dev/guide/assets.html#importing-asset-as-url) pour plus d'informations.
 
 
 [less]: https://lesscss.org/
@@ -620,6 +641,6 @@ Voir la [documentation de Vite](https://vitejs.dev/guide/assets.html#importing-a
 [stylus]: https://stylus-lang.com/
 [svelte-style]: https://svelte.dev/docs#component-format-style
 [tailwind]: /fr/guides/integrations-guide/tailwind/
-[vite-preprocessors]: https://vitejs.dev/guide/features.html#css-pre-processors
+[vite-preprocessors]: https://vite.dev/guide/features.html#css-pre-processors
 [vue-css-modules]: https://vue-loader.vuejs.org/guide/css-modules.html
 [vue-scoped]: https://vue-loader.vuejs.org/guide/scoped-css.html

@@ -4,7 +4,7 @@ description: Come aggiornare il tuo progetto all'ultima versione di Astro.
 i18nReady: true
 ---
 import PackageManagerTabs from '~/components/tabs/PackageManagerTabs.astro'
-import FileTree from '~/components/FileTree.astro'
+import { FileTree } from '@astrojs/starlight/components';
 
 
 Questa guida ti aiuterà a passare da Astro v1 ad Astro v2.
@@ -131,6 +131,7 @@ Nella v1.x, Astro usava `markdown.extendDefaultPlugins` per riattivare i plugin 
 Astro v2.0 rimuove questa opzione completamente perchè questo comportamento ora è predefinito.
 
 L'applicazione di plug-in remark e rehype nella configurazione di Markdown **non disabilita più i plug-in predefiniti di Astro**. GitHub-Flavored Markdown e Smartypants ora vengono applicati indipendentemente dalla configurazione di `remarkPlugins` o `rehypePlugins` personalizzati.
+
 
 ##### Cosa devo fare?
 
@@ -387,13 +388,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 ### Aggiornato: Vite 4
 
-Astro v2.0 passa da Vite 3 a [Vite 4](https://vitejs.dev/), rilasciato a Dicembre 2022.
+Astro v2.0 passa da Vite 3 a [Vite 4](https://vite.dev/), rilasciato a Dicembre 2022.
 
 #### Cosa devo fare?
 
 Non dovrebbero essere necessarie modifiche al codice! Abbiamo gestito al tuo posto la maggior parte dell'aggiornamento all'interno di Astro; tuttavia, alcuni sottili comportamenti di Vite possono ancora cambiare tra le versioni.
 
-Fai riferimento alla [Guida ufficiale per la Migrazione di Vite](https://vitejs.dev/guide/migration.html) se dovessi incontrare dei problemi.
+Fai riferimento alla [Guida ufficiale per la Migrazione di Vite](https://vite.dev/guide/migration.html) se dovessi incontrare dei problemi.
 
 ## Flag Sperimentali rimossi in Astro v2.0
 

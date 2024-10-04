@@ -29,7 +29,7 @@ Astroには、`base`、`strict`、`strictest`という3つの拡張可能な`tsc
 }
 ```
 
-また、[Viteのクライアント型](https://vitejs.dev/guide/features.html#client-types)をプロジェクトで利用できるように、テンプレートには`src`フォルダ内に`env.d.ts`が含まれています。
+また、[Viteのクライアント型](https://vite.dev/guide/features.html#client-types)をプロジェクトで利用できるように、テンプレートには`src`フォルダ内に`env.d.ts`が含まれています。
 
 ```typescript title="env.d.ts"
 /// <reference types="astro/client" />
@@ -96,7 +96,7 @@ import type { SomeType } from './script';
 
 ## Importエイリアス
 
-Astroは、`tsconfig.json`と`jsconfig.json`の`paths`設定で定義する[importエイリアス](/ja/guides/aliases/)をサポートしています。詳しくは[ガイド](/ja/guides/aliases/)をご覧ください。
+Astroは、`tsconfig.json`と`jsconfig.json`の`paths`設定で定義する[importエイリアス](/ja/guides/imports/#importエイリアス)をサポートしています。
 
 
 ```astro title="src/pages/about/nate.astro" "@components" "@layouts"
@@ -266,7 +266,7 @@ Astroには、動的ルーティングに対して[`getStaticPaths()`](/ja/refer
 ---
 import type { InferGetStaticParamsType, InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
-export const getStaticPaths() = (async () => {
+export const getStaticPaths = (async () => {
   const posts = await getCollection('blog');
   return posts.map((post) => {
     return {

@@ -6,8 +6,9 @@ service: Storyblok
 stub: false
 i18nReady: true
 ---
-import FileTree from '~/components/FileTree.astro'
-import PackageManagerTabs from '~/components/tabs/PackageManagerTabs.astro'
+import { Steps } from '@astrojs/starlight/components';
+import { FileTree } from '@astrojs/starlight/components';
+import PackageManagerTabs from '~/components/tabs/PackageManagerTabs.astro';
 
 [Storyblok](https://www.storyblok.com/) est un CMS headless basé sur des composants qui vous permet de gérer votre contenu à l'aide de composants réutilisables appelés Bloks.
 
@@ -19,7 +20,7 @@ Dans cette section, vous utiliserez l'[intégration Storyblok](https://github.co
 
 Pour commencer, vous devez disposer des éléments suivants :
 
-1. **Un projet Astro** - Si vous n'avez pas encore de projet Astro, notre [Guide d'installation](/fr/install/auto/) vous permettra d'être opérationnel en un rien de temps.
+1. **Un projet Astro** - Si vous n'avez pas encore de projet Astro, notre [Guide d'installation](/fr/install-and-setup/) vous permettra d'être opérationnel en un rien de temps.
 
 2. **Un compte Storyblok et un espace** - Si vous n'avez pas encore de compte, [inscrivez-vous gratuitement](https://app.storyblok.com/#/signup) et créez un nouvel espace.
 
@@ -212,7 +213,7 @@ const content = data.story.content;
 
 Pour interroger vos données, utilisez le hook `useStoryblokApi`. Cela initialisera une nouvelle instance de client en utilisant votre configuration d'intégration.
 
-Pour rendre votre contenu, passez la propriété `content` de la story au `StoryblokComponent` en tant que prop `blok`. Ce composant rendra les Bloks définis dans la propriété `content`. Dans ce cas, il rendra le composant `BlogPost`.
+Pour rendre votre contenu, passez la propriété `content` de la story au `StoryblokComponent` en tant que propriété `blok`. Ce composant rendra les Bloks définis dans la propriété `content`. Dans ce cas, il rendra le composant `BlogPost`.
 
 ## Créer un blog avec Astro et Storyblok
 
@@ -302,7 +303,7 @@ const content = renderRichText(blok.content)
 
 Il utilise le hook `useStoryblokApi` pour récupérer toutes les story avec le type de contenu `blogPost`. Il utilise le paramètre de requête `version` pour récupérer les versions préliminaires des articles lorsqu'il est en mode développement et les versions publiées lorsqu'il est en mode production.
 
-`Astro.props` est utilisé pour configurer l'éditeur dans Storyblok. Des props supplémentaires peuvent également être passés à votre composant ici, si nécessaire.
+`Astro.props` est utilisé pour configurer l'éditeur dans Storyblok. Des props supplémentaires peuvent également être passées à votre composant ici, si nécessaire.
 ```astro title="src/storyblok/BlogPostList.astro"
 ---
 import { storyblokEditable } from '@storyblok/astro'
@@ -508,21 +509,25 @@ Si votre projet utilise le mode statique par défaut d'Astro, vous devrez config
 
 Pour configurer un webhook dans Netlify :
 
+<Steps>
 1. Allez sur le tableau de bord de votre site et cliquez sur **Build & deploy**.
 
 2. Sous l'onglet **Continuous Deployment**, trouvez la section **Build hooks** et cliquez sur **Add build hook**.
 
 3. Donnez un nom à votre webhook et sélectionnez la branche sur laquelle vous souhaitez déclencher la construction. Cliquez sur **Save** et copiez l'URL générée.
+</Steps>
 
 ##### Vercel
 
 Pour configurer un webhook dans Vercel :
 
+<Steps>
 1. Allez sur le tableau de bord de votre projet et cliquez sur **Settings**.
 
 2. Sous l'onglet **Git**, trouvez la section **Deploy hooks**.
 
 3. Donnez un nom à votre webhook et indiquez la branche sur laquelle vous souhaitez déclencher la construction. Cliquez sur **Add** et copiez l'URL générée.
+</Steps>
 
 ##### Ajouter un webhook à Storyblok
 

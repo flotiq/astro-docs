@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_OPTIONS: "--max_old_space_size=4096"
+  NODE_OPTIONS: "--max_old_space_size=8192"
 
 jobs:
   astrocheck:
@@ -21,9 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: true
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Tools & Dependencies
         uses: ./.github/actions/install
@@ -33,9 +34,10 @@ jobs:
   eslint:
     name: Check for code issues with ESLint
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Tools & Dependencies
         uses: ./.github/actions/install
@@ -45,9 +47,10 @@ jobs:
   slugcheck:
     name: Check for Mismatched Slugs
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Tools & Dependencies
         uses: ./.github/actions/install
@@ -57,9 +60,10 @@ jobs:
   linkcheck:
     name: Check Links
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Tools & Dependencies
         uses: ./.github/actions/install
