@@ -50,7 +50,6 @@ To connect your project with Flotiq, install the [Flotiq SDK](https://github.com
 npx flotiq-codegen-ts
 ```
 
-[ @todo start ]
 Update your tsconfig.json file and exclude the Flotiq SDK from TypeScript checks:
 
 ```json add={3}
@@ -59,7 +58,6 @@ Update your tsconfig.json file and exclude the Flotiq SDK from TypeScript checks
   "exclude": ["flotiqApi"]
 }
 ```
-[ @todo end ]
 
 Next, configure the SDK using your credentials. Create a new file named `flotiq.ts` inside the `src/lib` directory of your project:
 
